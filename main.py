@@ -4,37 +4,6 @@ from selenium.webdriver.chrome.options import Options
 import pandas as pd
 import math
 
-
-def refresh_stats(is_headless=True):
-    url = 'https://www.nba.com/stats/teams/traditional/?PerMode=Totals&sort=PTS&dir=-1&Season=2020-21&SeasonType' \
-          '=Regular%20Season '
-    if is_headless:
-        chrome_options = Options()
-        user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, " \
-                     "like Gecko) Chrome/88.0.4324.96 Safari/537.36 "
-        chrome_options.add_argument(f'user-agent={user_agent}')
-        chrome_options.add_argument("--headless")
-        chrome_options.add_argument('--no-proxy-server')
-        chrome_options.add_argument("--proxy-server='direct://'")
-        chrome_options.add_argument("--proxy-bypass-list=*")
-        driver = webdriver.Chrome(options=chrome_options)
-        driver.get(url)
-    else:
-        chrome_options = Options()
-        driver = webdriver.Chrome(options=chrome_options)
-        driver.get(url)
-
-    html = driver.page_source
-    soup = BeautifulSoup(html, 'html.parser')
-    div = soup.find('div', class_="nba-stat-table__overflow")
-    df = pd.read_html(str(div))[0]
-    df = df[['TEAM', 'GP', 'W', 'L', 'WIN%', 'MIN', 'PTS', 'FGM', 'FGA', 'FG%', '3PM', '3PA', '3P%', 'FTM', 'FTA',
-             'OREB', 'DREB', 'REB', 'AST', 'TOV', 'STL', 'BLK', 'BLKA', 'PF', 'PFD', '+/-']]
-    df['EFG'] = (df['FGM'] + 0.5 * df['3PM']) / df['FGA']
-    df['POS'] = df['FGA'] - df['OREB'] + df['TOV'] + 0.4 * df['FTA']
-    return df
-
-
 def get_schedule():
     url = 'https://www.basketball-reference.com/leagues/NBA_2021_games-february.html'
     chrome_options = Options()
