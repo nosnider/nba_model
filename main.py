@@ -13,30 +13,29 @@ def get_schedule():
     table = BeautifulSoup(html, 'html.parser').find(id='schedule')
 
     df_rows = []
+
+    # loop through every row in table
     for row in table.find('tbody').find_all('tr'):
-        try:
-            game = {'date': row.find('th', {'data-stat': 'date_game'}).a.te [0],
-                    'start_time': row.find('td', {'data-stat': 'game_start_time'}).contents[0],
-                    'visiting_team': row.find('td', {'data-stat': 'visitor_team_name'}).a.contents[0],
-                    'visiting_score': row.find('td', {'data-stat': 'visitor_pts'}).contents[0],
-                    'home_team': row.find('td', {'data-stat': 'home_team_name'}).a.contents[0],
-                    'home_score': row.find('td', {'data-stat': 'home_pts'}).contents[0]}
-            df_rows.append(game)
+        df_cells = dict()
 
-        except IndexError:
-            game = {'date': row.find('th', {'data-stat': 'date_game'}).a.contents[0],
-                    'start_time': row.find('td', {'data-stat': 'game_start_time'}).contents[0],
-                    'visiting_team': row.find('td', {'data-stat': 'visitor_team_name'}).a.contents[0],
-                    'visiting_score': row.find('td', {'data-stat': 'visitor_pts'}).contents,
-                    'home_team': row.find('td', {'data-stat': 'home_team_name'}).a.contents[0],
-                    'home_score': row.find('td', {'data-stat': 'home_pts'}).contents}
-            df_rows.append(game)
+        # loop through each cell
+        for cell in row.children:
 
-        except AttributeError:
-            continue
+            try:
+                value = cell.get_text()
+                key = cell.get_attribute_list('data-stat')[0]
+            except AttributeError:
+                continue
+
+            df_cells[key] = value
+
+        df_rows.append(df_cells)
 
     driver.quit()
-    return pd.DataFrame(df_rows)
+
+    df = pd.DataFrame(df_rows)
+    df = df[(df.date_game != 'Date')]
+    return df
 
 
 def get_four_factors():
@@ -70,12 +69,11 @@ def get_four_factors():
                 value = cell.get_text()
                 df_cells[key] = value
 
-
         df_rows.append(df_cells)
+
     driver.quit()
     return pd.DataFrame(df_rows).dropna()
 
 
 four_facts = get_four_factors()
 schedule = get_schedule()
-print('ehllo')
