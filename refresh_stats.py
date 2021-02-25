@@ -2,7 +2,7 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import pandas as pd
-
+import datetime
 
 def get_schedule():
     url = 'https://www.basketball-reference.com/leagues/NBA_2021_games-february.html'
@@ -32,8 +32,10 @@ def get_schedule():
         df_rows.append(df_cells)
 
     driver.quit()
-
     df = pd.DataFrame(df_rows)
+    df = df[df['date_game'] != 'Date']
+    df['date_game'] = pd.to_datetime(df['date_game'])
+    df['game_start_time'] = pd.to_datetime(df['game_start_time']).dt.time
     return df
 
 
@@ -68,4 +70,5 @@ def get_four_factors():
 if __name__ == "__main__":
     four_facts = get_four_factors()
     schedule = get_schedule()
-    print(four_facts)
+    four_facts.to_pickle("./four_factors.pkl")
+    schedule.to_pickle("./schedule.pkl")
