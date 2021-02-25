@@ -64,7 +64,17 @@ def get_four_factors():
         df_rows.append(df_cells)
 
     driver.quit()
-    return pd.DataFrame(df_rows).dropna()
+
+    # clean data
+    df = pd.DataFrame(df_rows).dropna()
+    df['efg_pct'] = df['efg_pct'].astype(float)
+    df['opp_efg_pct'] = df['opp_efg_pct'].astype(float)
+    df['tov_pct'] = df['tov_pct'].astype(float)
+    df['opp_tov_pct'] = df['opp_tov_pct'].astype(float)
+    df['orb_pct'] = df['orb_pct'].astype(float)
+    df['drb_pct'] = df['drb_pct'].astype(float)
+
+    return df
 
 
 if __name__ == "__main__":
