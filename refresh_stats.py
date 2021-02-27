@@ -73,6 +73,8 @@ def get_four_factors():
     df['opp_tov_pct'] = df['opp_tov_pct'].astype(float)
     df['orb_pct'] = df['orb_pct'].astype(float)
     df['drb_pct'] = df['drb_pct'].astype(float)
+    df['ft_rate'] = df['ft_rate'].astype(float)
+    df['opp_ft_rate'] = df['opp_ft_rate'].astype(float)
 
     return df
 
