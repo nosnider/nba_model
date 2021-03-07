@@ -3,13 +3,15 @@ from datetime import date
 
 schedule = pd.read_pickle("./schedule.pkl")
 four_factors = pd.read_pickle("./four_factors.pkl")
-todays_games = schedule.loc[schedule['date_game'] == str(date.today())]
+#todays_games = schedule.loc[schedule['date_game'] == str(date.today())]
+todays_games = schedule.loc[schedule['date_game'] == '2021-03-11']
+
 
 if todays_games.empty:
     print('No games today')
     exit()
 
-for i in range(0, len(todays_games.index) - 1):
+for i in range(0, len(todays_games.index)):
     game = todays_games.iloc[i]
     away_four_factors = four_factors[four_factors['team_name'] == game['visitor_team_name']]
     home_four_factors = four_factors[four_factors['team_name'] == game['home_team_name']]
