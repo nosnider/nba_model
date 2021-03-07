@@ -11,6 +11,8 @@ if todays_games.empty:
     print('No games today')
     exit()
 
+print('Note - negative values indicate advantage to the the home team.')
+
 for i in range(0, len(todays_games.index)):
     game = todays_games.iloc[i]
     away_four_factors = four_factors[four_factors['team_name'] == game['visitor_team_name']]
@@ -24,6 +26,5 @@ for i in range(0, len(todays_games.index)):
     matchup = matchup[['factor1', 'factor2', 'factor3', 'factor4']]
     spread = matchup.iloc[0] - matchup.iloc[1]
     line = (spread.factor1 * .40) + (spread.factor2 * .25) + (spread.factor3 * .20) + (spread.factor4 * .15) - 1.50
-    # note - negative values indicate the home team, positive away
     line = line * 2
     print({'home': game['home_team_name'], 'away': game['visitor_team_name'], 'line': line})
