@@ -5,7 +5,7 @@ import pandas as pd
 import datetime
 
 def get_schedule():
-    url = 'https://www.basketball-reference.com/leagues/NBA_2021_games-february.html'
+    url = 'https://www.basketball-reference.com/leagues/NBA_2021_games-march.html'
     chrome_options = Options()
     driver = webdriver.Chrome(options=chrome_options)
     driver.get(url)
@@ -75,8 +75,15 @@ def get_four_factors():
     df['drb_pct'] = df['drb_pct'].astype(float)
     df['ft_rate'] = df['ft_rate'].astype(float)
     df['opp_ft_rate'] = df['opp_ft_rate'].astype(float)
-
     return df
+
+def get_box_score():
+    url = "https://www.basketball-reference.com/leagues/NBA_2021.html#misc::none"
+    chrome_options = Options()
+    driver = webdriver.Chrome(options=chrome_options)
+    driver.get(url)
+    html = driver.page_source
+    table = BeautifulSoup(html, 'html.parser').find(id='div_misc_stats')
 
 
 if __name__ == "__main__":
