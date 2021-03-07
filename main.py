@@ -1,8 +1,13 @@
 import pandas as pd
+from datetime import date
 
 schedule = pd.read_pickle("./schedule.pkl")
 four_factors = pd.read_pickle("./four_factors.pkl")
-todays_games = schedule.loc[schedule['date_game'] == '2021-03-04']
+todays_games = schedule.loc[schedule['date_game'] == str(date.today())]
+
+if todays_games.empty:
+    print('No games today')
+    exit()
 
 for i in range(0, len(todays_games.index) - 1):
     game = todays_games.iloc[i]
