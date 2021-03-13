@@ -1,10 +1,11 @@
 import pandas as pd
 from datetime import date
+from refresh_stats import get_four_factors, get_schedule
 
-schedule = pd.read_pickle("./schedule.pkl")
-four_factors = pd.read_pickle("./four_factors.pkl")
-#todays_games = schedule.loc[schedule['date_game'] == str(date.today())]
-todays_games = schedule.loc[schedule['date_game'] == '2021-03-11']
+four_factors = get_four_factors()
+schedule = get_schedule()
+
+todays_games = schedule.loc[schedule['date_game'] == str(date.today())]
 
 
 if todays_games.empty:
