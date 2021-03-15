@@ -98,17 +98,10 @@ def get_four_factors():
     df['opp_ft_rate'] = df['opp_ft_rate'].astype(float)
     return df
 
-def get_box_score():
-    url = "https://www.basketball-reference.com/leagues/NBA_2021.html#misc::none"
-    chrome_options = Options()
-    driver = webdriver.Chrome(options=chrome_options)
-    driver.get(url)
-    html = driver.page_source
-    table = BeautifulSoup(html, 'html.parser').find(id='div_misc_stats')
 
 
 if __name__ == "__main__":
     four_facts = get_four_factors()
     schedule = get_schedule()
-    four_facts.to_pickle("./four_factors.pkl")
-    schedule.to_pickle("./schedule.pkl")
+    four_facts.to_pickle("./test_data/four_factors.pkl")
+    schedule.to_pickle("./test_data/schedule.pkl")
