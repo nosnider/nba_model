@@ -1,4 +1,3 @@
-import pandas as pd
 from datetime import date
 from refresh_stats import get_four_factors, get_schedule
 
