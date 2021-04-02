@@ -26,7 +26,7 @@ def get_four_factors_recent():
 
 
 def get_schedule():
-    url = 'https://www.basketball-reference.com/leagues/NBA_2021_games-march.html'
+    url = 'https://www.basketball-reference.com/leagues/NBA_2021_games-april.html'
     chrome_options = Options()
     driver = webdriver.Chrome(options=chrome_options)
     driver.get(url)

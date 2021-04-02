@@ -4,7 +4,6 @@ import sqlite3
 
 four_factors = get_four_factors()
 schedule = get_schedule()
-con = sqlite3.connect('model_predictions.db')
 
 date = str(date.today())
 todays_games = schedule.loc[schedule['date_game'] == date]
@@ -32,10 +31,24 @@ for i in range(0, len(todays_games.index)):
     spread = matchup.iloc[0] - matchup.iloc[1]
     line = (spread.factor1 * .40) + (spread.factor2 * .25) + (spread.factor3 * .20) + (spread.factor4 * .15) - 1.50
     line = line * 2
-    payload.append((date, game['home_team_name'], game['visitor_team_name'], line))
+
+    payload.append(
+        (date + game['home_team_name'] + game['visitor_team_name'],
+         date,
+         game['home_team_name'],
+         game['visitor_team_name'],
+         spread.factor1,
+         spread.factor2,
+         spread.factor3,
+         spread.factor4,
+         line))
+
     print({'home': game['home_team_name'], 'away': game['visitor_team_name'], 'line': line})
 
+
+
+con = sqlite3.connect('predictions.db')
 cur = con.cursor()
-cur.executemany('INSERT INTO predictions VALUES (?,?,?,?)',payload)
+cur.executemany('INSERT INTO predictions VALUES (?,?,?,?,?,?,?,?,?)',payload)
 con.commit()
 con.close()
