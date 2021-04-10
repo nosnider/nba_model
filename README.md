@@ -9,4 +9,4 @@ Statistics and schedules are scraped from www.basketballreference.com and www.nb
 - Run ```$ python main.py```
 
 # Interpreting Output
-The script will output all games for today's date and their predicted spreads. Negative values indicate an advantage to the home team, while positive values indicate an advantage to the away team. This is a bit different than traditional spreads where negative values indicate an advantage to the Vegas favorite.
+The script will output all games for today's date and each game's predictred winner. Negative values indicate an advantage to the home team, while positive values indicate an advantage to the away team.
