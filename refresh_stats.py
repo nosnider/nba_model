@@ -3,7 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import pandas as pd
 
-def get_four_factors_recent():
+def get_four_factors_recent(enable_headless = False):
     url = 'https://www.nba.com/stats/teams/four-factors/?sort=W_PCT&dir=-1&Season=2020-21&SeasonType=Regular%20Season&LastNGames=5'
     chrome_options = Options()
     driver = webdriver.Chrome(options=chrome_options)
@@ -25,9 +25,14 @@ def get_four_factors_recent():
     return pd.DataFrame(df_rows)
 
 
-def get_schedule():
+def get_schedule(enable_headless = False):
     url = 'https://www.basketball-reference.com/leagues/NBA_2021_games-march.html'
+
+    # initialize options for Chrome driver
     chrome_options = Options()
+    if enable_headless:
+        chrome_options.add_argument('--headless')
+
     driver = webdriver.Chrome(options=chrome_options)
     driver.get(url)
     html = driver.page_source
@@ -60,9 +65,14 @@ def get_schedule():
     return df
 
 
-def get_four_factors():
+def get_four_factors(enable_headless = False):
     url = "https://www.basketball-reference.com/leagues/NBA_2021.html#misc::none"
+
+    # initialize options for Chrome driver
     chrome_options = Options()
+    if enable_headless:
+        chrome_options.add_argument('--headless')
+
     driver = webdriver.Chrome(options=chrome_options)
     driver.get(url)
     html = driver.page_source
