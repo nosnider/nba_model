@@ -111,7 +111,7 @@ def get_four_factors(enable_headless = False):
 
 
 if __name__ == "__main__":
-    four_facts = get_four_factors()
-    schedule = get_schedule()
+    four_facts = get_four_factors(enable_headless=True)
+    schedule = get_schedule(enable_headless=True)
     four_facts.to_pickle("./test_data/four_factors.pkl")
     schedule.to_pickle("./test_data/schedule.pkl")
