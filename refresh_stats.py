@@ -2,6 +2,10 @@ from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import pandas as pd
+from datetime import date
+
+month = date.today()
+month = month.strftime("%B").lower()
 
 def get_four_factors_recent():
     url = 'https://www.nba.com/stats/teams/four-factors/?sort=W_PCT&dir=-1&Season=2020-21&SeasonType=Regular%20Season&LastNGames=5'
@@ -26,7 +30,7 @@ def get_four_factors_recent():
 
 
 def get_schedule():
-    url = 'https://www.basketball-reference.com/leagues/NBA_2021_games-march.html'
+    url = f'https://www.basketball-reference.com/leagues/NBA_2021_games-{month}.html'
     chrome_options = Options()
     driver = webdriver.Chrome(options=chrome_options)
     driver.get(url)
